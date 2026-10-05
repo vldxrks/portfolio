@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Login · HabitFlow{% endblock %}
+{% block scene %}bokeh{% endblock %}
+{% block content %}
+<div class="auth-shell">
+  <section class="auth-brand" aria-hidden="true">
+    <div class="ap-eyebrow">HabitFlow</div>
+    <h1>Welcome back.<br><span class="ap-rainbow">Keep the streak alive.</span></h1>
+    <p>Your routines are waiting. One check-in today keeps tomorrow's momentum going.</p>
+    <div class="auth-chips"><span class="auth-chip">🏃 Morning run</span><span class="auth-chip">📚 Read 30 pages</span><span class="auth-chip">🧘 Meditate</span><span class="auth-chip">💧 Water</span></div>
+    <div class="auth-streak"><div class="ring"><span>86%</span></div><div><strong>🔥 12 day streak</strong><div class="text-secondary small">You're on a roll</div></div></div>
+  </section>
+
+  <section class="auth-card {% if form.errors %}shake{% endif %}">
+    <h2>Sign in</h2>
+    <p class="lead-s">Use your username or email.</p>
+    <form method="post" novalidate>{% csrf_token %}
+      {% if form.non_field_errors %}<div class="auth-alert" role="alert">Incorrect username/email or password.</div>{% endif %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <div class="fl"><input class="form-control" name="username" id="id_username" placeholder=" " autocomplete="username" required autofocus value="{{ form.username.value|default:'' }}"><label for="id_username">Username or email</label></div>
+      <div class="fl"><input class="form-control" type="password" name="password" id="id_password" placeholder=" " autocomplete="current-password" required><label for="id_password">Password</label>
+        <button type="button" class="toggle-pw" data-toggle="#id_password">Show</button></div>
+      <button class="btn btn-primary auth-submit">Sign in</button>
+    </form>
+    <p class="auth-alt">New to HabitFlow? <a href="{% url 'register' %}">Create an account</a></p>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll(".toggle-pw").forEach(function(b){b.onclick=function(){var i=document.querySelector(b.dataset.toggle);var s=i.type==="password";i.type=s?"text":"password";b.textContent=s?"Hide":"Show"}});
+</script>
+{% endblock %}

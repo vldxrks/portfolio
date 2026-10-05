@@ -1,0 +1,61 @@
+{% load static %}<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-build" content="5-hero-glow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}HabitFlow{% endblock %}</title>
+  <meta name="description" content="HabitFlow: build better habits, one day at a time.">
+  <link href="{% static 'vendor/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="{% static 'css/apple.css' %}?v={{ asset_v }}" rel="stylesheet">
+    <script>
+    (function(){var t=localStorage.getItem("theme")||"system";
+    if(t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";
+    document.documentElement.setAttribute("data-bs-theme",t)})();
+  </script>
+</head>
+<body data-scene="{% block scene %}aurora{% endblock %}">
+<div class="mesh" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<nav class="navbar navbar-expand-md">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'landing' %}">HabitFlow</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div id="nav" class="collapse navbar-collapse">
+      {% if user.is_authenticated %}
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'habit-list' %}">Habits</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'analytics' %}">Analytics</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'achievements' %}">Achievements</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'notifications' %}">Notifications{% if unread_count %} <span class="badge text-bg-danger">{{ unread_count }}</span>{% endif %}</a></li>
+      </ul>
+      {% else %}<span class="me-auto"></span>{% endif %}
+      <select id="theme" class="form-select form-select-sm w-auto me-2" aria-label="Theme">
+        <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
+      </select>
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-outline-secondary btn-sm">Logout ({{ user.username }})</button></form>
+      {% else %}
+      <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'login' %}">Login</a>
+      <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Get Started</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+<main class="container pb-5">
+  {% for m in messages %}<div class="alert alert-{% if m.tags == "error" %}danger{% else %}{{ m.tags|default:"info" }}{% endif %}" role="status">{{ m }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+<script src="{% static 'vendor/bootstrap.bundle.min.js' %}"></script>
+<script>
+  var sel=document.getElementById("theme");sel.value=localStorage.getItem("theme")||"system";
+  sel.onchange=function(){localStorage.setItem("theme",sel.value);location.reload()};
+</script>
+<script src="{% static 'js/background.js' %}?v={{ asset_v }}"></script>
+<script src="{% static 'js/apple.js' %}?v={{ asset_v }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block scene %}stars{% endblock %}
+{% block content %}
+<h1 class="h3">Achievements</h1>
+<div class="row g-3">{% for u in earned %}<div class="col-md-4"><div class="card p-3"><div class="h4">{{ u.achievement.icon }} {{ u.achievement.title }}</div>{{ u.achievement.description }}<div class="small text-secondary">{{ u.earned_at|date }}</div></div></div>
+{% empty %}<div class="col-12"><div class="card p-4 text-center">Complete a habit to earn your first achievement.</div></div>{% endfor %}</div>
+{% endblock %}

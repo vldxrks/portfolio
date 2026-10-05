@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block scene %}grid{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between"><h1 class="h3">{{ habit.name }}</h1><a class="btn btn-outline-secondary btn-sm" href="{% url 'habit-edit' habit.pk %}">Edit</a></div>
+<p class="text-secondary">{{ habit.get_category_display }} · goal {{ habit.target_value }} {{ habit.unit }}</p>
+<div class="row g-3 mb-4 text-center">
+  <div class="col-6 col-md-3"><div class="card p-3"><div class="h4">🔥 {{ current }}</div>Current streak</div></div>
+  <div class="col-6 col-md-3"><div class="card p-3"><div class="h4">{{ longest }}</div>Best streak</div></div>
+  <div class="col-6 col-md-3"><div class="card p-3"><div class="h4">{{ total_days }}</div>Completed days</div></div>
+  <div class="col-6 col-md-3"><div class="card p-3"><div class="h4">{{ rate }}%</div>30-day rate</div></div>
+</div>
+<div class="card p-3"><h2 class="h6">History</h2>
+<ul class="list-unstyled mb-0">{% for c in history %}<li>{{ c.date }} · {{ c.value }} {{ habit.unit }} {{ c.note }}</li>{% empty %}<li>No completions yet.</li>{% endfor %}</ul></div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Jobs — ResumeAI{% endblock %}
+{% block content %}
+<div class="page-head"><h2>Vacancies</h2>
+  <a class="btn btn-primary" href="{% url 'vacancy_create' %}">Add vacancy</a></div>
+{% for v in vacancies %}
+<div class="card px-4 py-3 mb-2 d-flex flex-row justify-content-between align-items-center">
+  <div><div class="fw-medium">{{ v.title }}</div><div class="text-muted small">{{ v.company|default:"No company" }}</div></div>
+  <form method="post" action="{% url 'vacancy_delete' v.id %}" onsubmit="return confirm('Delete vacancy?')" class="m-0">{% csrf_token %}<button class="btn btn-sm btn-outline-danger">Delete</button></form>
+</div>
+{% empty %}
+<div class="card p-5 text-center"><p class="mb-1 fw-medium">No vacancies yet</p><p class="text-muted">Add one to compare it with your resume.</p>
+<div><a class="btn btn-primary" href="{% url 'vacancy_create' %}">Add vacancy</a></div></div>
+{% endfor %}
+{% endblock %}

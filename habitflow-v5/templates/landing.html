@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}HabitFlow · Build better habits{% endblock %}
+{% block scene %}aurora{% endblock %}
+{% block content %}
+<div class="ap-wrap">
+<section class="ap-hero">
+  <div class="ap-hero-glow" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="ap-eyebrow reveal">HabitFlow</div>
+  <h1 class="reveal">Build better habits.<br>One day at a time.</h1>
+  <p class="sub reveal">Beautifully simple tracking, streaks you can trust and insights that keep you going.</p>
+  <div class="ap-cta-row reveal">
+    <a class="btn btn-primary btn-lg" href="{% url 'register' %}">Get Started</a>
+    <a class="ap-link" href="{% url 'login' %}">Login</a>
+  </div>
+
+  <div class="ap-stage" aria-hidden="true">
+    <div class="ap-device reveal">
+      <div class="ap-screen">
+        <div class="ap-bar"><i></i><i></i><i></i></div>
+        <div class="ap-ui">
+          <div class="ap-side"><b class="on">Dashboard</b><b>Habits</b><b>Analytics</b><b>Achievements</b></div>
+          <div class="ap-main">
+            <h3>Good morning, Alex 👋</h3>
+            <div class="ap-rows">
+              <div class="ap-row"><span class="dot" style="background:#e3f9e9">🏃</span><div>Morning Run<div class="bar"><span style="--w:100%;background:#30d158"></span></div></div><small>🔥 12</small></div>
+              <div class="ap-row"><span class="dot" style="background:#e5f0ff">📚</span><div>Read 30 pages<div class="bar"><span style="--w:70%;background:#0a84ff"></span></div></div><small>21 / 30</small></div>
+              <div class="ap-row"><span class="dot" style="background:#f3e8ff">🧘</span><div>Meditate<div class="bar"><span style="--w:45%;background:#bf5af2"></span></div></div><small>🔥 5</small></div>
+              <div class="ap-row"><span class="dot" style="background:#e1f6fb">💧</span><div>Drink water<div class="bar"><span style="--w:85%;background:#32ade6"></span></div></div><small>1.7 L</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="ap-statement">Habits are not about willpower. They are about showing up, tracking it honestly, and letting small days add up to a different life.</p>
+</div>
+
+<section class="ap-dark">
+  <div class="ap-wrap">
+    <h2 class="reveal">Streaks.<br><span class="ap-rainbow">Calculated, not guessed.</span></h2>
+    <div class="ap-big" data-count="365">0</div>
+    <p class="reveal">Every streak comes from your real history and your own timezone. No manual counters, no drift.</p>
+  </div>
+</section>
+
+<div class="ap-wrap">
+<section class="ap-bento">
+  <article class="ap-tile t-a reveal">
+    <div class="k">Dashboard</div><h3>Everything today,<br>at a glance.</h3><p>Progress rings, goals like 7,500 / 10,000 steps and one-tap check-ins.</p>
+    <div class="ap-ring" style="--p:80"><span>80%</span></div>
+  </article>
+  <article class="ap-tile dark t-b reveal">
+    <div class="k">Schedules</div><h3>Your rhythm.</h3><p>Daily, chosen weekdays or N times a week.</p>
+    <div class="ap-bars" aria-hidden="true"><span style="--h:40%"></span><span style="--h:70%"></span><span style="--h:55%"></span><span style="--h:90%"></span><span style="--h:65%"></span><span style="--h:100%"></span></div>
+  </article>
+  <article class="ap-tile t-c reveal">
+    <div class="k">Analytics</div><h3>See the pattern.</h3><p>Completion rates and 30-day charts.</p>
+    <div class="heat" data-demo aria-hidden="true"></div>
+  </article>
+  <article class="ap-tile dark t-d reveal">
+    <div class="k">REST API</div><h3>Built for developers, too.</h3><p>JWT auth, filtering, pagination and Swagger docs.</p>
+    <pre class="ap-code" aria-hidden="true"><b>POST</b> /api/v1/habits/<i>7</i>/complete/
+Authorization: Bearer <i>eyJ0eXAi…</i>
+
+{ "date": "2026-10-03", "value": 30 }</pre>
+  </article>
+</section>
+
+<section class="ap-final">
+  <h2 class="reveal">Start your first streak <span class="ap-rainbow">today.</span></h2>
+  <div class="ap-cta-row reveal mt-4">
+    <a class="btn btn-primary btn-lg" href="{% url 'register' %}">Create your account</a>
+    <a class="ap-link" href="{% url 'login' %}">I already have one</a>
+  </div>
+</section>
+<footer class="ap-footer">© HabitFlow · Built with Django, PostgreSQL and Celery.</footer>
+</div>
+{% endblock %}

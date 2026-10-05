@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ResumeAI{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h2>Welcome back, {{ user.username }}</h2>
+  <a href="{% url 'upload' %}" class="btn btn-primary">Upload resume</a>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3"><div class="card stat"><div class="label">Resumes</div><div class="value">{{ stats.resumes }}</div></div></div>
+  <div class="col-6 col-md-3"><div class="card stat"><div class="label">Analyses</div><div class="value">{{ stats.analyses }}</div></div></div>
+  <div class="col-6 col-md-3"><div class="card stat"><div class="label">Average score</div><div class="value">{% if stats.avg_score %}{{ stats.avg_score|floatformat:0 }}{% else %}—{% endif %}</div></div></div>
+  <div class="col-6 col-md-3"><div class="card stat"><div class="label">Job matches</div><div class="value">{{ stats.matches }}</div></div></div>
+</div>
+<div class="card p-4 mb-4">
+  <h5>Your resumes</h5>
+  {% if resumes %}
+  <div class="table-responsive"><table class="table table-hover align-middle mb-0">
+    <thead><tr><th>Title</th><th>Type</th><th>Status</th><th>Score</th><th>Uploaded</th><th></th></tr></thead>
+    {% for r in resumes %}
+    <tr>
+      <td class="fw-medium">{{ r.title }}</td><td class="text-muted">{{ r.file_type|upper }}</td>
+      <td><span class="badge text-bg-{% if r.status == 'failed' %}danger{% elif r.status == 'completed' %}success{% else %}secondary{% endif %}">{{ r.status }}</span></td>
+      <td>{% if r.last_analysis %}{{ r.last_analysis.overall_score }}{% else %}<span class="text-muted">—</span>{% endif %}</td>
+      <td class="text-muted">{{ r.created_at|date:"Y-m-d" }}</td>
+      <td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="{% url 'resume_detail' r.id %}">Open</a></td>
+    </tr>
+    {% endfor %}
+  </table></div>
+  {% else %}
+  <div class="text-center py-5">
+    <p class="mb-1 fw-medium">No resumes yet</p>
+    <p class="text-muted">Upload your first resume to get an analysis.</p>
+    <a href="{% url 'upload' %}" class="btn btn-primary">Upload resume</a>
+  </div>
+  {% endif %}
+</div>
+<div class="card p-4 mb-4">
+  <div class="d-flex justify-content-between align-items-baseline"><h5>Recent vacancies</h5><a href="{% url 'vacancy_list' %}" class="small">View all</a></div>
+  {% for v in vacancies %}<div class="py-1">{{ v }}</div>{% empty %}<p class="text-muted mb-0">No vacancies saved. Add one to compare it with a resume.</p>{% endfor %}
+</div>
+<form method="post" action="{% url 'delete_account' %}" onsubmit="return confirm('Delete your account and ALL data permanently?')">
+  {% csrf_token %}<button class="btn btn-sm btn-outline-danger">Delete my account and data</button>
+</form>
+{% endblock %}

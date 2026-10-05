@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Create account · HabitFlow{% endblock %}
+{% block scene %}bokeh{% endblock %}
+{% block content %}
+<div class="auth-shell">
+  <section class="auth-brand" aria-hidden="true">
+    <div class="ap-eyebrow">HabitFlow</div>
+    <h1>Small days.<br><span class="ap-rainbow">Big change.</span></h1>
+    <p>Create your free account and start your first streak in under a minute.</p>
+    <div class="auth-chips"><span class="auth-chip">🔥 Honest streaks</span><span class="auth-chip">📈 Analytics</span><span class="auth-chip">🏆 Achievements</span><span class="auth-chip">⏰ Reminders</span></div>
+  </section>
+
+  <section class="auth-card {% if form.errors %}shake{% endif %}">
+    <h2>Create account</h2>
+    <p class="lead-s">Free forever. No credit card.</p>
+    <form method="post" novalidate>{% csrf_token %}
+      {% for e in form.non_field_errors %}<div class="auth-alert" role="alert">{{ e }}</div>{% endfor %}
+      {% for f in form %}
+      <div class="fl">{{ f }}<label for="{{ f.id_for_label }}">{{ f.label }}</label>
+        {% if f.name == "password1" %}<button type="button" class="toggle-pw" data-toggle="#{{ f.id_for_label }}">Show</button>{% endif %}
+        {% for e in f.errors %}<div class="err">{{ e }}</div>{% endfor %}
+        {% if f.name == "password1" and not f.errors %}<div class="hint">At least 8 characters, not too common.</div>{% endif %}
+        {% if f.name == "timezone" and not f.errors %}<div class="hint">For example Europe/Kyiv. Used for streaks and reminders.</div>{% endif %}
+      </div>
+      {% endfor %}
+      <button class="btn btn-primary auth-submit">Create account</button>
+    </form>
+    <p class="auth-alt">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll(".toggle-pw").forEach(function(b){b.onclick=function(){var i=document.querySelector(b.dataset.toggle);var s=i.type==="password";i.type=s?"text":"password";b.textContent=s?"Hide":"Show"}});
+</script>
+{% endblock %}

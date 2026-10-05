@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · HabitFlow{% endblock %}
+{% block scene %}waves{% endblock %}
+{% block content %}
+<header class="dash-hero">
+  <h1 class="page-title">Hello, <span class="grad-name">{{ user.first_name|default:user.username }}</span> 👋</h1>
+  <p class="sub">{% if total and done == total %}Everything done today. Beautiful work.{% elif total %}{{ total }} habits on your plate today. Let's go.{% else %}Create your first habit and start a streak.{% endif %}</p>
+</header>
+
+<section class="stat-grid" aria-label="Today's summary">
+  <div class="card stat"><span class="lbl">Today</span>
+    <div class="d-flex align-items-center justify-content-between"><div class="num">{{ done }}<small> / {{ total }}</small></div>
+      <div class="mini-ring" style="--p:{{ percent }}"><span>{{ percent }}%</span></div></div></div>
+  <div class="card stat"><span class="lbl">Best streak</span><div class="num">🔥 {{ best_streak }}<small> days</small></div></div>
+  <div class="card stat"><span class="lbl">Level</span><div class="num">{{ user.level }}</div>
+    <div><div class="progress" role="progressbar" aria-valuenow="{{ xp_in_level }}" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar" style="width:{{ xp_in_level }}%"></div></div>
+    <div class="small text-secondary mt-1">{{ xp_in_level }} / 100 XP</div></div></div>
+  <div class="card stat"><span class="lbl">Quick actions</span>
+    <div class="d-grid gap-2"><a class="btn btn-primary btn-sm" href="{% url 'habit-create' %}">+ New habit</a>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'analytics' %}">Analytics</a></div></div>
+</section>
+
+<div class="row g-3">
+{% for c in cards %}
+  <div class="col-md-6 col-lg-4"><div class="card card-habit habit-card h-100">
+    <a class="h5 text-decoration-none d-block mb-0" href="{% url 'habit-detail' c.habit.pk %}"><span class="dotc" style="background:{{ c.habit.color }}"></span>{{ c.habit.name }}</a>
+    <div class="small text-secondary">{{ c.habit.get_category_display }}</div>
+    <div class="small mt-3">{{ c.value }} / {{ c.habit.target_value }} {{ c.habit.unit }}</div>
+    <div class="progress my-2"><div class="progress-bar" style="width:{{ c.percent }}%;background:{{ c.habit.color }}"></div></div>
+    <div class="small mb-3">🔥 {{ c.streak }} day streak</div>
+    {% if c.done %}<span class="badge text-bg-success align-self-start">Completed ✓</span>
+    {% else %}<form method="post" action="{% url 'habit-complete' c.habit.pk %}">{% csrf_token %}<button class="btn btn-primary btn-sm">Mark as complete</button></form>{% endif %}
+  </div></div>
+{% empty %}
+  <div class="col-12"><div class="card p-5 text-center"><h2 class="h4">You don't have any habits yet.</h2>
+  <p class="text-secondary">Start building better routines today.</p><div><a class="btn btn-primary" href="{% url 'habit-create' %}">Create your first habit</a></div></div></div>
+{% endfor %}
+</div>
+{% endblock %}

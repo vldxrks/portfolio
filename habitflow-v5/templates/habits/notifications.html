@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block scene %}waves{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between"><h1 class="h3">Notifications</h1>
+<form method="post">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary">Mark all as read</button></form></div>
+<div class="list-group mt-3">{% for n in items %}<div class="list-group-item {% if not n.is_read %}fw-bold{% endif %}">{{ n.title }}<div class="small text-secondary">{{ n.message }} · {{ n.created_at|date:"d M H:i" }}</div></div>
+{% empty %}<div class="card p-4 text-center">You're all caught up.</div>{% endfor %}</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block scene %}aurora{% endblock %}
+{% block content %}
+<h1 class="h3">Analytics</h1>
+<div class="card p-3 mb-3"><h2 class="h6">Last 30 days</h2><canvas id="c30" height="90"></canvas></div>
+<div class="card p-3"><h2 class="h6">Habit performance (30d)</h2>
+{% for p in data.performance %}<div class="d-flex justify-content-between"><span>{{ p.name }}</span><strong>{{ p.rate }}%</strong></div>
+<div class="progress mb-2"><div class="progress-bar" style="width:{{ p.rate }}%"></div></div>{% empty %}<p>No data yet.</p>{% endfor %}</div>
+{{ data.daily_30|json_script:"daily" }}
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendor/chart.umd.min.js' %}"></script>
+<script>
+const d=JSON.parse(document.getElementById("daily").textContent);
+new Chart(document.getElementById("c30"),{type:"line",data:{labels:d.map(x=>x.date.slice(5)),datasets:[{label:"Completed",data:d.map(x=>x.count),borderColor:"#4f46e5",tension:.3}]},options:{responsive:true,scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
+</script>
+{% endblock %}

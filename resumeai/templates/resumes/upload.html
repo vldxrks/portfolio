@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Upload resume — ResumeAI{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-7"><div class="card p-4">
+  <h3 class="mb-1">Upload resume</h3>
+  <p class="text-muted">PDF or DOCX, up to 10 MB. Analysis starts right after upload.</p>
+  <form method="post" enctype="multipart/form-data" id="f">{% csrf_token %}
+    {% if form.errors %}<div class="alert alert-danger" role="alert">{% for e in form.file.errors %}{{ e }} {% endfor %}{% for e in form.title.errors %}{{ e }} {% endfor %}</div>{% endif %}
+    <label class="form-label small fw-medium" for="id_title">Title (optional)</label>
+    <input class="form-control mb-3" name="title" id="id_title" maxlength="200" placeholder="e.g. Backend developer CV">
+    <div id="drop" class="dropzone mb-3">
+      <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div>
+      <p class="mb-1 fw-medium">Drop your resume here</p>
+      <p class="text-muted small mb-3">or choose a file from your computer</p>
+      <input type="file" name="file" id="id_file" accept=".pdf,.docx" class="form-control" required aria-label="Resume file">
+      <div id="info" class="file-chip"></div>
+    </div>
+    <button class="btn btn-primary" id="go">Analyze</button>
+  </form>
+</div></div></div>
+<script>
+const drop=document.getElementById('drop'), inp=document.getElementById('id_file'), info=document.getElementById('info');
+['dragover','dragenter'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add('is-over')}));
+['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove('is-over')}));
+drop.addEventListener('drop',ev=>{inp.files=ev.dataTransfer.files;show()});
+inp.addEventListener('change',show);
+function show(){const f=inp.files[0]; if(!f){info.classList.remove('show');return;}
+  info.textContent=f.name+' · '+(f.size/1048576).toFixed(2)+' MB'; info.classList.add('show');}
+document.getElementById('f').addEventListener('submit',()=>{const b=document.getElementById('go');b.disabled=true;b.textContent='Uploading…'});
+</script>
+{% endblock %}
