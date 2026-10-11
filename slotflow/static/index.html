@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>SlotFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css"></head><body>
+<header class="hdr"><div class="wrap"><a class="logo" href="#top"><i>▦</i>SlotFlow</a>
+<nav><a href="#catalog">Catalog</a><a href="#bookings">My Bookings</a></nav>
+<div style="display:flex;gap:8px"><a id="adminLink" class="btn" href="/admin" hidden>Admin</a><button class="btn" id="authBtn">Sign in</button><button class="btn" id="supBtn">Support</button></div></div></header>
+<main id="top"><section class="hero"><div class="wrap" style="width:100%"><div class="panel">
+<h1>Space for clear thinking.</h1><p class="lead">Architectural precision in meeting room bookings with temporary slot hold.</p>
+<div class="filters"><input id="q" placeholder="Search by name or style..."><select id="loc"><option value="">All SlotFlow locations</option></select>
+<select id="cap"><option value="">Any capacity</option><option value="4">4+ guests</option><option value="8">8+ guests</option><option value="14">14+ guests</option><option value="22">22+ guests</option></select></div>
+<div class="chips"><span>Equipment:</span><span id="eqs" style="display:contents"></span></div></div></div></section>
+<section class="sec" id="catalog"><div class="wrap"><div class="sec-h"><div><h2>Meeting Spaces Catalog</h2><p>Architectural slot availability grid 8:00–22:00 with instant hold protection.</p></div><span class="mono">Real-time slot synchronization</span></div>
+<div id="list"></div></div></section>
+<section class="sec" id="bookings" style="padding-top:0"><div class="wrap bk"><div><h2 style="font-size:36px">My Bookings</h2><p>Up-to-date schedule of your team's confirmed coworking sessions.</p>
+<div class="act"><div style="display:flex;justify-content:space-between"><span class="mono">ACTIVE SESSIONS</span><span class="n" id="cnt">0</span></div><p>Free cancellation is available up to 30 minutes before the start of the booked interval.</p></div></div><div id="mine"></div></div></section></main>
+<footer><div class="wrap"><div class="fg"><div><a class="logo" href="#top"><i style="width:40px;height:40px;font-size:18px">▦</i>SlotFlow</a><p>Architectural booking service for meeting rooms and workspaces with continuous chrono-grid slots.</p></div>
+<div><h4>Navigation</h4><ul><li><a href="#catalog">Room Catalog</a></li><li><a href="#bookings">My Bookings</a></li><li><a href="#" onclick="policy();return false">Cancellation &amp; Hold Policy</a></li></ul></div>
+<div><h4>Customer Support</h4><ul><li>+7 (495) 820-00-40</li><li>support@slotflow.ru</li><li>Daily: 8:00 – 22:00</li></ul></div></div>
+<div class="copy"><span>© 2026 SlotFlow. All rights reserved.</span><span>Privacy Policy &nbsp; Terms of Service</span></div></div></footer>
+<dialog id="auth"><form method="dialog" id="af"><h2 id="at" style="font-size:28px">Sign in</h2><label id="nl" hidden>Name<input id="an"></label>
+<label>Email<input id="ae" type="email" required></label><label>Password (8+ chars)<input id="ap" type="password" minlength="8" required></label>
+<p id="aerr" style="color:var(--red);margin:0 0 8px"></p><div style="display:flex;gap:8px"><button class="btn pri" id="asub" style="flex:1">Sign in</button><button class="btn" type="button" id="atog">Register</button></div></form></dialog>
+<dialog id="sup"><h2 style="font-size:28px">Support</h2><p>+7 (495) 820-00-40<br>support@slotflow.ru<br>Daily: 8:00 – 22:00</p><p id="pol" hidden>A slot is held for the hold period; unconfirmed holds are released automatically. Confirmed bookings can be cancelled free of charge up to 30 minutes before the start.</p><button class="btn pri" onclick="sup.close()">Close</button></dialog>
+<script src="/static/app.js"></script></body></html>
