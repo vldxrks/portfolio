@@ -1,6 +1,4 @@
-"""Entry point. Wires up storage, middlewares and routers, then starts polling.
-Run: python bot.py (after filling .env — see README.md)
-"""
+
 import asyncio
 import logging
 from logging.handlers import RotatingFileHandler
